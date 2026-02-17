@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent Advisor Intake Form</title>
+    <style>
+        :root {
+            --primary-blue: #1e40af;
+            --light-bg: #f8fafc;
+            --accent-blue: #eff6ff;
+            --border-color: #334155;
+            --text-main: #0f172a;
+            --danger-red: #ef4444;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text-main);
+            line-height: 1.4;
+            margin: 0;
+            padding: 20px;
+            background-color: #cbd5e1;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Page Container */
+        .page {
+            background-color: #fff;
+            width: 100%;
+            max-width: 850px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-sizing: border-box;
+            border-radius: 4px;
+            margin-bottom: 60px;
+        }
+
+        /* Responsive Header Grid */
+        .header-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .header-field {
+            font-size: 14px;
+            display: flex;
+            align-items: baseline;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .header-field span {
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+
+        .underline {
+            flex-grow: 1;
+            border-bottom: 1px solid var(--border-color);
+            margin-left: 5px;
+            display: flex;
+            min-width: 100px; /* Prevent collapse */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 22px;
+            text-decoration: none;
+            margin: 10px 0 20px 0;
+            font-weight: bold;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--primary-blue);
+            padding-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin: 30px 0 10px 0;
+            font-weight: bold;
+            color: white;
+            background-color: var(--primary-blue);
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .section-content {
+            padding: 15px;
+            background-color: var(--light-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        /* Dynamic Item Styles */
+        .dynamic-item {
+            position: relative;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--danger-red);
+            color: white;
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 10;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .add-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: transparent;
+            border: 2px dashed var(--primary-blue);
+            color: var(--primary-blue);
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+
+        .add-btn:hover {
+            background-color: var(--accent-blue);
+        }
+
+        /* Interactive Radio/Checkbox Styling */
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px 0;
+            min-height: 24px;
+            position: relative;
+        }
+
+        .checkbox-item input[type="radio"],
+        .checkbox-item input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkbox-box {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-blue);
+            margin-right: 8px;
+            background: white;
+            display: inline-block;
+            border-radius: 3px; /* Rounded for checkbox look */
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        /* Checked Logic */
+        .checkbox-item input:checked ~ .checkbox-box {
+            background-color: var(--primary-blue);
+            box-shadow: inset 0 0 0 3px white;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .columns-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .text-label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #334155;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        /* Inputs */
+        input[type="text"], textarea, input[type="date"] {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+            color: #1e293b;
+        }
+        
+        textarea {
+            border: 1px solid #cbd5e1;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 40px;
+        }
+
+        textarea:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.1);
+        }
+
+        /* Mobile specific adjustments for tables/grids */
+        .card-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        /* Print Button */
+        .no-print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 14px 28px;
+            background: var(--primary-blue);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- Desktop & Tablet Breakpoints --- */
+        @media (min-width: 768px) {
+            body { padding: 40px 20px; }
+            .page { padding: 40px 50px; }
+            .header-grid { grid-template-columns: 1fr 1fr; }
+            .columns-2 { grid-template-columns: 1fr 1fr; }
+            .row { flex-direction: row; align-items: center; }
+            .no-print-btn { top: 20px; bottom: auto; }
+            h1 { font-size: 26px; }
+        }
+
+        /* --- Print Styles --- */
+        @media print {
+            body { background: none; padding: 0; display: block; }
+            .page { box-shadow: none; width: 100%; max-width: 100%; padding: 0; border: none; margin: 0; }
+            .no-print { display: none !important; }
+            .header-grid { grid-template-columns: 1fr 1fr !important; }
+            .columns-2 { grid-template-columns: 1fr 1fr !important; }
+            .row { flex-direction: row !important; }
+            h2 { background-color: #000 !important; color: white !important; -webkit-print-color-adjust: exact; }
+            .section-content, .dynamic-item { border: 1px solid #ccc; break-inside: avoid; }
+            .checkbox-item input:checked ~ .checkbox-box { background-color: #000 !important; box-shadow: inset 0 0 0 3px white !important; -webkit-print-color-adjust: exact;}
+            textarea { border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="no-print-btn no-print" onclick="window.print()">
+        <span>Print / PDF</span>
+    </button>
+
+    <div class="page">
+        <!-- Title -->
+        <h1>Talent Advisor Intake Form</h1>
+
+        <!-- Header Block -->
+        <div class="header-grid">
+            <div class="header-field"><span>Job Title:</span> <div class="underline"><input type="text"></div></div>
+            <div class="header-field"><span>Budget/Grade:</span> <div class="underline"><input type="text"></div></div>
+            
+            <div class="header-field"><span>Dept/Squad:</span> <div class="underline"><input type="text"></div></div>
+            <div class="header-field">
+                <span>Type:</span> 
+                <div class="checkbox-group" style="margin-left: 10px;">
+                    <label class="checkbox-item"><input type="radio" name="job_type" value="new"><div class="checkbox-box"></div> New</label>
+                    <label class="checkbox-item"><input type="radio" name="job_type" value="replacement"><div class="checkbox-box"></div> Replacement</label>
+                </div>
+            </div>
+
+            <div class="header-field"><span>Hiring Manager:</span> <div class="underline"><input type="text"></div></div>
+            <div class="header-field">
+                <span>Approval:</span>
+                <div class="checkbox-group" style="margin-left: 10px;">
+                    <label class="checkbox-item"><input type="radio" name="approval" value="pending"><div class="checkbox-box"></div> Pending</label>
+                    <label class="checkbox-item"><input type="radio" name="approval" value="approved"><div class="checkbox-box"></div> Approved</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 1: Role Details -->
+        <h2>1. Role Details & Logistics</h2>
+        <div class="section-content">
+            <div class="row">
+                <span class="text-label" style="min-width: 80px;">Location:</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="checkbox" name="location"><div class="checkbox-box"></div> On-site</label>
+                    <label class="checkbox-item"><input type="checkbox" name="location"><div class="checkbox-box"></div> Hybrid</label>
+                    <label class="checkbox-item"><input type="checkbox" name="location"><div class="checkbox-box"></div> Remote</label>
+                </div>
+            </div>
+            
+            <div class="row">
+                <span class="text-label" style="min-width: 80px;">Type:</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="checkbox" name="emp_type"><div class="checkbox-box"></div> Full-time</label>
+                    <label class="checkbox-item"><input type="checkbox" name="emp_type"><div class="checkbox-box"></div> Part-time</label>
+                    <label class="checkbox-item"><input type="checkbox" name="emp_type"><div class="checkbox-box"></div> Contract</label>
+                    <label class="checkbox-item"><input type="checkbox" name="emp_type"><div class="checkbox-box"></div> Freelance</label>
+                </div>
+            </div>
+
+            <div class="columns-2">
+                <div class="header-field"><span>Reporting To:</span> <div class="underline"><input type="text"></div></div>
+                <div class="header-field"><span># Openings:</span> <div class="underline"><input type="text"></div></div>
+            </div>
+
+            <div style="margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 10px;">
+                <div class="row">
+                    <span class="text-label">Leadership Role?</span>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="radio" name="leadership" value="yes"><div class="checkbox-box"></div> Yes</label>
+                        <label class="checkbox-item"><input type="radio" name="leadership" value="no"><div class="checkbox-box"></div> No</label>
+                    </div>
+                </div>
+                <div class="header-field" style="margin-top: 5px;"><span>If yes, # Direct Reports:</span> <div class="underline"><input type="text"></div></div>
+            </div>
+        </div>
+
+        <!-- Section 2: Compensation -->
+        <h2>2. Compensation & Benefits</h2>
+        <div class="section-content">
+            <div class="row">
+                <div class="header-field" style="flex-grow: 1;"><span>Salary Range:</span> <div class="underline"><input type="text" placeholder="From - To"></div></div>
+                <div class="header-field" style="width: 120px;"><span>Currency:</span> <div class="underline"><input type="text"></div></div>
+            </div>
+            
+            <div class="row">
+                <span class="text-label">Is salary flexible?</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="radio" name="flexible" value="yes"><div class="checkbox-box"></div> Yes</label>
+                    <label class="checkbox-item"><input type="radio" name="flexible" value="no"><div class="checkbox-box"></div> No</label>
+                </div>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <span class="text-label">Benefits Offered:</span>
+                <div class="checkbox-group" style="margin-top: 5px;">
+                    <label class="checkbox-item"><input type="checkbox"><div class="checkbox-box"></div> Bonus</label>
+                    <label class="checkbox-item"><input type="checkbox"><div class="checkbox-box"></div> Health</label>
+                    <label class="checkbox-item"><input type="checkbox"><div class="checkbox-box"></div> Equity</label>
+                    <label class="checkbox-item"><input type="checkbox"><div class="checkbox-box"></div> Allowances</label>
+                    <div class="header-field" style="flex-grow: 1; margin-left: 10px;"><span>Other:</span> <div class="underline"><input type="text"></div></div>
+                </div>
+            </div>
+
+            <div class="columns-2" style="margin-top: 15px;">
+                <div class="header-field"><span>Nationality Preference:</span> <div class="underline"><input type="text"></div></div>
+                
+                <div class="row" style="margin: 0;">
+                    <span class="text-label">Gender Preference:</span>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="radio" name="gender" value="none"><div class="checkbox-box"></div> None</label>
+                        <label class="checkbox-item"><input type="radio" name="gender" value="male"><div class="checkbox-box"></div> Male</label>
+                        <label class="checkbox-item"><input type="radio" name="gender" value="female"><div class="checkbox-box"></div> Female</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 15px;">
+                <span class="text-label">Notice Period:</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="checkbox"><div class="checkbox-box"></div> Immediate</label>
+                    <label class="checkbox-item"><input type="checkbox"><div class="checkbox-box"></div> 1 Month</label>
+                    <label class="checkbox-item"><input type="checkbox"><div class="checkbox-box"></div> 2 Months</label>
+                    <label class="checkbox-item"><input type="checkbox"><div class="checkbox-box"></div> 3 Months</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Interview Process -->
+        <h2>3. Interview Process & Timeline</h2>
+        <div class="section-content">
+            <div class="columns-2">
+                <div class="header-field"><span># Stages:</span> <div class="underline"><input type="text"></div></div>
+                <div class="header-field"><span>Target Date:</span> <div class="underline"><input type="date"></div></div>
+            </div>
+            
+            <div class="columns-2" style="margin-top: 15px;">
+                <div class="row" style="margin: 0;">
+                    <span class="text-label">Format:</span>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="checkbox"><div class="checkbox-box"></div> Online</label>
+                        <label class="checkbox-item"><input type="checkbox"><div class="checkbox-box"></div> On-site</label>
+                        <label class="checkbox-item"><input type="checkbox"><div class="checkbox-box"></div> Mixed</label>
+                    </div>
+                </div>
+                <div class="row" style="margin: 0;">
+                    <span class="text-label">Assignment/Case Study?</span>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item"><input type="radio" name="case_study" value="yes"><div class="checkbox-box"></div> Yes</label>
+                        <label class="checkbox-item"><input type="radio" name="case_study" value="no"><div class="checkbox-box"></div> No</label>
+                    </div>
+                </div>
+            </div>
+
+             <div class="row" style="margin-top: 15px;">
+                <span class="text-label">Priority:</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="radio" name="priority"><div class="checkbox-box"></div> Low</label>
+                    <label class="checkbox-item"><input type="radio" name="priority"><div class="checkbox-box"></div> Med</label>
+                    <label class="checkbox-item"><input type="radio" name="priority"><div class="checkbox-box"></div> High</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Role Calibration (Dynamic) -->
+        <h2>4. Role Calibration (The "WHO")</h2>
+        <div class="section-content">
+            <span class="text-label" style="font-style: italic; color: var(--primary-blue);">1-Year Success Definition:</span>
+            <textarea rows="3" placeholder="What specific results must they have achieved 1 year from now?"></textarea>
+        </div>
+
+        <div class="columns-2" style="margin-top: 20px;">
+            <!-- Must Haves -->
+            <div>
+                <h3 style="font-size: 14px; color: var(--text-main); border-bottom: 2px solid var(--danger-red); padding-bottom: 5px;">Must-Haves (Deal Breakers)</h3>
+                <div id="must-haves-container" class="card-grid">
+                    <!-- Dynamic Items -->
+                    <div class="dynamic-item">
+                        <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
+                        <div class="header-field"><span>1.</span> <div class="underline"><input type="text"></div></div>
+                    </div>
+                    <div class="dynamic-item">
+                        <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
+                        <div class="header-field"><span>2.</span> <div class="underline"><input type="text"></div></div>
+                    </div>
+                </div>
+                <button class="add-btn no-print" onclick="addItem('must-haves-container')">+ Add Deal Breaker</button>
+            </div>
+
+            <!-- Nice to Haves -->
+            <div>
+                <h3 style="font-size: 14px; color: var(--text-main); border-bottom: 2px solid var(--primary-blue); padding-bottom: 5px;">Teachable (Nice-to-Haves)</h3>
+                <div id="nice-to-haves-container" class="card-grid">
+                    <!-- Dynamic Items -->
+                    <div class="dynamic-item">
+                        <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
+                        <div class="header-field"><span>1.</span> <div class="underline"><input type="text"></div></div>
+                    </div>
+                    <div class="dynamic-item">
+                        <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
+                        <div class="header-field"><span>2.</span> <div class="underline"><input type="text"></div></div>
+                    </div>
+                </div>
+                <button class="add-btn no-print" onclick="addItem('nice-to-haves-container')">+ Add Nice-to-Have</button>
+            </div>
+        </div>
+
+        <!-- Section 5: Sourcing Strategy (Dynamic) -->
+        <h2>5. Sourcing Strategy</h2>
+        <div id="sourcing-container">
+            <div class="dynamic-item">
+                <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
+                <div class="text-label" style="color: var(--primary-blue); margin-bottom: 8px;">Target Set 1</div>
+                <div class="columns-2">
+                    <div class="header-field" style="flex-direction: column; align-items: flex-start;">
+                        <span style="font-size: 12px; color: #64748b;">Target Industries</span>
+                        <textarea rows="2"></textarea>
+                    </div>
+                    <div class="header-field" style="flex-direction: column; align-items: flex-start;">
+                        <span style="font-size: 12px; color: #64748b;">Target Companies</span>
+                        <textarea rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="header-field" style="flex-direction: column; align-items: flex-start; margin-top: 10px;">
+                     <span style="font-size: 12px; color: #64748b;">Job Titles / Keywords</span>
+                     <div class="underline" style="width: 100%;"><input type="text"></div>
+                </div>
+            </div>
+        </div>
+        <button class="add-btn no-print" onclick="addItem('sourcing-container')">+ Add Sourcing Target Set</button>
+        
+        <div class="section-content" style="margin-top: 20px; border: 2px solid #ef4444; background-color: #fef2f2;">
+            <div class="header-field"><span style="color: #ef4444;">Anti-Persona (Do NOT Contact):</span> <div class="underline" style="border-color: #ef4444;"><input type="text" placeholder="Companies/Titles to avoid"></div></div>
+        </div>
+
+        <!-- Section 6: Process & SLAs (Dynamic) -->
+        <h2>6. Process & SLAs</h2>
+        <div id="process-container">
+            <!-- Stage 1 -->
+            <div class="dynamic-item">
+                <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
+                <div class="header-field" style="margin-bottom: 5px;">
+                    <span>Stage 1:</span> <div class="underline"><input type="text" value="Recruiter Screen"></div>
+                </div>
+                <div class="columns-2">
+                    <div class="header-field"><span>Interviewer:</span> <div class="underline"><input type="text"></div></div>
+                    <div class="header-field"><span>Focus:</span> <div class="underline"><input type="text"></div></div>
+                </div>
+            </div>
+             <!-- Stage 2 -->
+             <div class="dynamic-item">
+                <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
+                <div class="header-field" style="margin-bottom: 5px;">
+                    <span>Stage 2:</span> <div class="underline"><input type="text" value="Hiring Manager"></div>
+                </div>
+                <div class="columns-2">
+                    <div class="header-field"><span>Interviewer:</span> <div class="underline"><input type="text"></div></div>
+                    <div class="header-field"><span>Focus:</span> <div class="underline"><input type="text"></div></div>
+                </div>
+            </div>
+        </div>
+        <button class="add-btn no-print" onclick="addItem('process-container')">+ Add Interview Stage</button>
+
+        <div class="section-content" style="margin-top: 15px; border: 2px solid var(--primary-blue);">
+            <div style="font-weight: bold; margin-bottom: 10px; color: var(--primary-blue);">Recruitment SLA Commitment:</div>
+            <div class="checkbox-group" style="flex-direction: column; gap: 10px; align-items: flex-start;">
+                
+                <div style="display: flex; align-items: center; width: 100%;">
+                    <label class="checkbox-item" style="white-space: nowrap; margin-right: 5px;">
+                        <input type="checkbox"><div class="checkbox-box"></div> HM: Feedback on CVs within
+                    </label>
+                    <div class="underline" style="max-width: 80px;"><input type="text" value="24h" style="text-align: center;"></div>
+                </div>
+
+                <div style="display: flex; align-items: center; width: 100%;">
+                     <label class="checkbox-item" style="white-space: nowrap; margin-right: 5px;">
+                        <input type="checkbox"><div class="checkbox-box"></div> HM: Interview feedback within
+                    </label>
+                    <div class="underline" style="max-width: 80px;"><input type="text" value="24h" style="text-align: center;"></div>
+                </div>
+
+                <div class="header-field" style="width: 100%;">
+                    <label class="checkbox-item" style="white-space: nowrap; margin-right: 5px;"><input type="checkbox"><div class="checkbox-box"></div> Recruiter: Submit profiles by:</label> 
+                    <div class="underline"><input type="date"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts for Dynamic Functionality -->
+    <script>
+        function addItem(containerId) {
+            const container = document.getElementById(containerId);
+            const count = container.children.length + 1;
+            const div = document.createElement('div');
+            div.className = 'dynamic-item';
+
+            if (containerId === 'must-haves-container' || containerId === 'nice-to-haves-container') {
+                div.innerHTML = `
+                    <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
+                    <div class="header-field"><span>${count}.</span> <div class="underline"><input type="text"></div></div>
+                `;
+            } 
+            else if (containerId === 'sourcing-container') {
+                div.innerHTML = `
+                    <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
+                    <div class="text-label" style="color: var(--primary-blue); margin-bottom: 8px;">Target Set ${count}</div>
+                    <div class="columns-2">
+                        <div class="header-field" style="flex-direction: column; align-items: flex-start;">
+                            <span style="font-size: 12px; color: #64748b;">Target Industries</span>
+                            <textarea rows="2"></textarea>
+                        </div>
+                        <div class="header-field" style="flex-direction: column; align-items: flex-start;">
+                            <span style="font-size: 12px; color: #64748b;">Target Companies</span>
+                            <textarea rows="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="header-field" style="flex-direction: column; align-items: flex-start; margin-top: 10px;">
+                        <span style="font-size: 12px; color: #64748b;">Job Titles / Keywords</span>
+                        <div class="underline" style="width: 100%;"><input type="text"></div>
+                    </div>
+                `;
+            }
+            else if (containerId === 'process-container') {
+                div.innerHTML = `
+                    <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
+                    <div class="header-field" style="margin-bottom: 5px;">
+                        <span>Stage ${count}:</span> <div class="underline"><input type="text"></div>
+                    </div>
+                    <div class="columns-2">
+                        <div class="header-field"><span>Interviewer:</span> <div class="underline"><input type="text"></div></div>
+                        <div class="header-field"><span>Focus:</span> <div class="underline"><input type="text"></div></div>
+                    </div>
+                `;
+            }
+
+            container.appendChild(div);
+            renumberItems(containerId);
+        }
+
+        function deleteItem(btn) {
+            const item = btn.closest('.dynamic-item');
+            const container = item.parentElement;
+            
+            // Allow deleting even the last item for flexibility
+            item.remove();
+            renumberItems(container.id);
+        }
+
+        function renumberItems(containerId) {
+            const container = document.getElementById(containerId);
+            const items = container.querySelectorAll('.dynamic-item');
+
+            items.forEach((item, index) => {
+                const count = index + 1;
+                
+                if (containerId === 'must-haves-container' || containerId === 'nice-to-haves-container') {
+                    const span = item.querySelector('.header-field span');
+                    if(span) span.textContent = `${count}.`;
+                }
+                else if (containerId === 'sourcing-container') {
+                    const label = item.querySelector('.text-label');
+                    if(label) label.textContent = `Target Set ${count}`;
+                }
+                else if (containerId === 'process-container') {
+                    const span = item.querySelector('.header-field span');
+                    if(span) span.textContent = `Stage ${count}:`;
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
