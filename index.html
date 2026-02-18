@@ -521,7 +521,7 @@
         <!-- Logo Header Space -->
         <div class="logo-header">
             <!-- REPLACE 'header-placeholder.png' with your actual logo filename -->
-            <img src="header-placeholder.png" alt="Company Logo" style="width: 100%; height: auto; display: block;">
+            <img src="Header.png" alt="Company Logo" style="width: 100%; height: auto; display: block;">
         </div>
 
         <!-- Title -->
@@ -530,7 +530,18 @@
         <!-- Header Block -->
         <div class="header-grid">
             <div class="header-field"><span>Job Title:</span> <div class="underline"><input type="text"></div></div>
-            <div class="header-field"><span>Budget:</span> <div class="underline"><input type="text"></div></div>
+            
+            <!-- Budget & Grade (Grouped to prevent wrapping) -->
+            <div class="header-field" style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: baseline; flex-grow: 1; min-width: 120px;">
+                    <span>Budget:</span> 
+                    <div class="underline"><input type="text"></div>
+                </div>
+                <div style="display: flex; align-items: baseline; flex-grow: 0; min-width: 100px;">
+                    <span style="min-width: auto; margin-right: 8px;">Grade:</span> 
+                    <div class="underline" style="min-width: 60px;"><input type="text"></div>
+                </div>
+            </div>
             
             <div class="header-field"><span>Dept/Squad:</span> <div class="underline"><input type="text"></div></div>
             <div class="header-field">
