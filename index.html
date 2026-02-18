@@ -433,6 +433,69 @@
 
         .card-grid { display: grid; gap: 15px; }
 
+        /* SLA Specific Styles for Mobile Optimization */
+        .sla-container {
+            border: 2px solid var(--primary-blue);
+            background-color: #eff6ff; /* Light accent blue background */
+        }
+
+        .sla-title {
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .sla-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sla-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .sla-label {
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            white-space: normal; /* Key for mobile wrapping */
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .sla-label .indicator {
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+
+        .sla-label .label-text {
+            line-height: 1.3;
+        }
+
+        .sla-input-sm {
+            width: 60px;
+            flex-shrink: 0;
+        }
+
+        .sla-input-sm input {
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .sla-input-md {
+            width: 140px;
+            flex-shrink: 0;
+        }
+
         /* Print Button */
         .no-print-btn {
             position: fixed;
@@ -474,6 +537,26 @@
                 gap: 20px;
             }
             .currency-wrapper { width: 100%; }
+
+            /* SLA Mobile Logic */
+            .sla-row {
+                align-items: flex-start; /* Align checkbox to top of multi-line text */
+            }
+            .sla-label {
+                margin-top: 3px; /* visual alignment */
+            }
+            .sla-row.date-row {
+                flex-wrap: wrap;
+            }
+            .sla-row.date-row .sla-label {
+                width: 100%;
+                flex: none;
+                margin-bottom: 5px;
+            }
+            .sla-input-md {
+                width: 100%;
+                margin-left: 28px; /* Indent under text */
+            }
         }
 
         @media (min-width: 769px) {
@@ -520,7 +603,6 @@
         
         <!-- Logo Header Space -->
         <div class="logo-header">
-            <!-- REPLACE 'header-placeholder.png' with your actual logo filename -->
             <img src="Header.png" alt="Company Logo" style="width: 100%; height: auto; display: block;">
         </div>
 
@@ -826,34 +908,51 @@
         </div>
         <button class="add-btn no-print" onclick="addItem('process-container')">+ Add Interview Stage</button>
 
-        <div class="section-content" style="margin-top: 15px; border: 2px solid var(--primary-blue);">
-            <div style="font-weight: bold; margin-bottom: 10px; color: var(--primary-blue);">Recruitment SLA Commitment:</div>
-            <div class="choice-group" style="flex-direction: column; gap: 10px; align-items: flex-start;">
+        <div class="section-content sla-container" style="margin-top: 15px;">
+            <div class="sla-title">Recruitment SLA Commitment:</div>
+            <div class="sla-rows">
                 
-                <div style="display: flex; align-items: center; width: 100%;">
-                    <label class="choice-item" style="white-space: nowrap; margin-right: 5px;">
-                        <input type="checkbox"><span class="indicator square"></span> HM: Feedback on CVs within
+                <!-- SLA Item 1 -->
+                <div class="sla-row">
+                    <label class="choice-item sla-label">
+                        <input type="checkbox">
+                        <span class="indicator square"></span> 
+                        <span class="label-text">HM: Feedback on CVs within</span>
                     </label>
-                    <div class="underline" style="max-width: 80px;"><input type="text" value="24h" style="text-align: center;"></div>
+                    <div class="underline sla-input-sm">
+                        <input type="text" value="24h">
+                    </div>
                 </div>
 
-                <div style="display: flex; align-items: center; width: 100%;">
-                     <label class="choice-item" style="white-space: nowrap; margin-right: 5px;">
-                        <input type="checkbox"><span class="indicator square"></span> HM: Interview feedback within
+                <!-- SLA Item 2 -->
+                <div class="sla-row">
+                    <label class="choice-item sla-label">
+                        <input type="checkbox">
+                        <span class="indicator square"></span> 
+                        <span class="label-text">HM: Interview feedback within</span>
                     </label>
-                    <div class="underline" style="max-width: 80px;"><input type="text" value="24h" style="text-align: center;"></div>
+                    <div class="underline sla-input-sm">
+                        <input type="text" value="24h">
+                    </div>
                 </div>
 
-                <div class="header-field" style="width: 100%;">
-                    <label class="choice-item" style="white-space: nowrap; margin-right: 5px;"><input type="checkbox"><span class="indicator square"></span> Recruiter: Submit profiles by:</label> 
-                    <div class="underline"><input type="date"></div>
+                <!-- SLA Item 3 -->
+                <div class="sla-row date-row">
+                    <label class="choice-item sla-label">
+                        <input type="checkbox">
+                        <span class="indicator square"></span> 
+                        <span class="label-text">Recruiter: Submit profiles by:</span>
+                    </label>
+                    <div class="underline sla-input-md">
+                        <input type="date" class="future-date">
+                    </div>
                 </div>
+
             </div>
         </div>
 
         <!-- Footer -->
         <div class="page-footer">
-            <!-- REPLACE 'footer-placeholder.png' with your actual footer filename -->
             <img src="footer.png" alt="Footer Image" style="width: 100%; height: auto; display: block;">
         </div>
 
