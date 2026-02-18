@@ -208,6 +208,77 @@
             box-shadow: inset 0 0 0 3px white;
         }
 
+        /* Range Slider Styles */
+        .range-container {
+            width: 100%;
+            position: relative;
+            padding-right: 15px; /* Prevent cutoff */
+        }
+        
+        .range-values {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            font-size: 14px;
+        }
+
+        .slider-track-wrapper {
+            position: relative;
+            height: 20px;
+            width: 100%;
+        }
+
+        .slider-track {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 4px;
+            background: #cbd5e1;
+            border-radius: 2px;
+            z-index: 0;
+        }
+
+        .range-input {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            pointer-events: none;
+            appearance: none;
+            background: none;
+            z-index: 1;
+            margin: 0;
+            border: none; /* Remove default border from global input style */
+        }
+
+        .range-input::-webkit-slider-thumb {
+            pointer-events: auto;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border: 2px solid var(--primary-blue);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            margin-top: -7px; /* Fix alignment */
+        }
+
+        /* Firefox Thumb */
+        .range-input::-moz-range-thumb {
+            pointer-events: auto;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border: 2px solid var(--primary-blue);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
         .row {
             display: flex;
             flex-direction: column;
@@ -230,7 +301,7 @@
         }
 
         /* Inputs */
-        input[type="text"], textarea, input[type="date"], select {
+        input[type="text"], input[type="number"], textarea, input[type="date"], select {
             width: 100%;
             border: none;
             background: transparent;
@@ -387,8 +458,25 @@
         <!-- Section 2: Compensation -->
         <h2>2. Compensation & Benefits</h2>
         <div class="section-content">
-            <div class="row">
-                <div class="header-field" style="flex-grow: 1;"><span>Salary Range:</span> <div class="underline"><input type="text" placeholder="From - To"></div></div>
+            <div class="row" style="align-items: flex-end;">
+                <!-- Range Slider -->
+                <div class="header-field" style="flex-grow: 1; flex-direction: column; align-items: stretch;">
+                    <div style="margin-bottom: 5px;"><span>Salary Range:</span></div>
+                    <div class="range-container">
+                        <div class="range-values">
+                            <span id="min-display">0</span>
+                            <span id="max-display">150,000</span>
+                        </div>
+                        <div class="slider-track-wrapper">
+                            <div class="slider-track" id="slider-track"></div>
+                            <!-- Min Range -->
+                            <input type="range" class="range-input" id="min-range" min="0" max="300000" value="50000" step="1000">
+                            <!-- Max Range -->
+                            <input type="range" class="range-input" id="max-range" min="0" max="300000" value="120000" step="1000">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="header-field" style="width: 350px;">
                     <span>Currency:</span> 
                     <div class="underline">
@@ -694,6 +782,50 @@
                     if(span) span.textContent = `Stage ${count}:`;
                 }
             });
+        }
+        
+        // --- Slider Logic ---
+        const minRange = document.getElementById('min-range');
+        const maxRange = document.getElementById('max-range');
+        const minDisplay = document.getElementById('min-display');
+        const maxDisplay = document.getElementById('max-display');
+        const track = document.getElementById('slider-track');
+        const rangeMaxVal = 300000; // Matches HTML max
+        const minGap = 5000;
+
+        function updateSlider() {
+            let min = parseInt(minRange.value);
+            let max = parseInt(maxRange.value);
+
+            // Prevent crossing
+            if (max - min <= minGap) {
+                if (this === minRange) {
+                    minRange.value = max - minGap;
+                } else {
+                    maxRange.value = min + minGap;
+                }
+            }
+            
+            // Re-read values
+            min = parseInt(minRange.value);
+            max = parseInt(maxRange.value);
+
+            // Display formatted with commas
+            minDisplay.textContent = min.toLocaleString();
+            maxDisplay.textContent = max.toLocaleString();
+
+            // Visual track coloring
+            const percent1 = (min / rangeMaxVal) * 100;
+            const percent2 = (max / rangeMaxVal) * 100;
+            
+            track.style.background = `linear-gradient(to right, #cbd5e1 ${percent1}%, var(--primary-blue) ${percent1}%, var(--primary-blue) ${percent2}%, #cbd5e1 ${percent2}%)`;
+        }
+
+        // Initialize Slider
+        if(minRange && maxRange) {
+            minRange.addEventListener('input', updateSlider);
+            maxRange.addEventListener('input', updateSlider);
+            updateSlider(); // Initial call to set colors
         }
     </script>
 
