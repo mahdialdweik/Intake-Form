@@ -433,7 +433,7 @@
 
         .card-grid { display: grid; gap: 15px; }
 
-        /* SLA Specific Styles for Mobile Optimization */
+        /* SLA Specific Styles */
         .sla-container {
             border: 2px solid var(--primary-blue);
             background-color: #eff6ff; /* Light accent blue background */
@@ -456,7 +456,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
+            gap: 15px;
         }
 
         .sla-label {
@@ -481,7 +481,7 @@
         }
 
         .sla-input-sm {
-            width: 60px;
+            width: 70px;
             flex-shrink: 0;
         }
 
@@ -492,7 +492,7 @@
         }
 
         .sla-input-md {
-            width: 140px;
+            width: 150px;
             flex-shrink: 0;
         }
 
@@ -555,7 +555,7 @@
             }
             .sla-input-md {
                 width: 100%;
-                margin-left: 28px; /* Indent under text */
+                margin-left: 30px; /* Indent under text */
             }
         }
 
@@ -577,19 +577,89 @@
             }
         }
 
+        /* --- PRINT OPTIMIZATIONS --- */
         @media print {
-            body { background: none; padding: 0; }
-            .page { box-shadow: none; width: 100%; max-width: 100%; padding: 0; margin: 0; }
+            @page {
+                margin: 0.5cm;
+                size: auto;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+                /* Force Print Colors */
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact;
+            }
+
+            .page {
+                box-shadow: none;
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+                margin: 0;
+                border-radius: 0;
+            }
+
             .no-print { display: none !important; }
-            .section-content { break-inside: avoid; border: 1px solid #ccc; background: none; }
-            .header-grid, .columns-2 { display: grid; grid-template-columns: 1fr 1fr; }
-            .salary-row { flex-direction: row; }
+
+            /* Compact Spacing */
+            h1 { font-size: 20px; margin: 10px 0; padding-bottom: 5px; }
+            h2 { 
+                font-size: 14px; 
+                margin: 15px 0 10px 0; 
+                padding: 6px 12px;
+                /* Force background color */
+                background: linear-gradient(90deg, var(--primary-blue), var(--primary-dark)) !important;
+                color: var(--white) !important;
+                -webkit-print-color-adjust: exact;
+            }
+
+            .section-content {
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                background: none;
+                page-break-inside: avoid; /* Prevent cutting sections */
+            }
+
+            .header-grid { 
+                display: grid; 
+                grid-template-columns: 1fr 1fr; 
+                gap: 15px; 
+                margin-bottom: 15px;
+            }
             
-            /* Remove placeholder borders for printing */
-            .logo-header { border: none; }
+            .salary-row { flex-direction: row; align-items: flex-end; }
+            .currency-wrapper { width: 300px; }
+            .columns-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+            .row { flex-direction: row; margin-bottom: 10px; }
+
+            .logo-header {
+                margin-bottom: 10px;
+                max-height: 80px; /* Constrain header height for print */
+            }
+            .logo-header img {
+                max-height: 100%;
+                width: auto;
+            }
+
+            .page-footer {
+                margin-top: 20px;
+                border-top: none; /* Clean look */
+                padding-top: 10px;
+            }
+
+            .choice-item input:checked ~ .indicator {
+                background-color: var(--primary-blue) !important;
+                border-color: var(--primary-blue) !important;
+                -webkit-print-color-adjust: exact;
+            }
             
-            h2 { background: #000 !important; color: #fff !important; -webkit-print-color-adjust: exact; }
-            .choice-item input:checked ~ .indicator { background-color: #000 !important; -webkit-print-color-adjust: exact; }
+            /* Ensure inputs are visible */
+            .underline { border-bottom: 1px solid #999; }
+            input, textarea, select { color: #000; }
         }
     </style>
 </head>
@@ -603,7 +673,8 @@
         
         <!-- Logo Header Space -->
         <div class="logo-header">
-            <img src="Header.png" alt="Company Logo" style="width: 100%; height: auto; display: block;">
+            <!-- REPLACE 'image_bae918.png' with your actual logo filename -->
+            <img src="Head.png" alt="Company Logo" style="width: 100%; height: auto; display: block;">
         </div>
 
         <!-- Title -->
@@ -613,7 +684,7 @@
         <div class="header-grid">
             <div class="header-field"><span>Job Title:</span> <div class="underline"><input type="text"></div></div>
             
-            <!-- Budget & Grade (Grouped to prevent wrapping) -->
+            <!-- Budget & Grade -->
             <div class="header-field" style="display: flex; gap: 15px; flex-wrap: wrap;">
                 <div style="display: flex; align-items: baseline; flex-grow: 1; min-width: 120px;">
                     <span>Budget:</span> 
@@ -628,7 +699,7 @@
             <div class="header-field"><span>Dept/Squad:</span> <div class="underline"><input type="text"></div></div>
             <div class="header-field">
                 <span>Type:</span> 
-                <div class="choice-group" style="margin-left: 0; width: 100%;"> <!-- Adjusted margin for mobile -->
+                <div class="choice-group" style="margin-left: 0; width: 100%;"> 
                     <label class="choice-item"><input type="radio" name="job_origin" value="new"><span class="indicator circle"></span> New</label>
                     <label class="choice-item"><input type="radio" name="job_origin" value="replacement"><span class="indicator circle"></span> Replacement</label>
                 </div>
@@ -953,6 +1024,7 @@
 
         <!-- Footer -->
         <div class="page-footer">
+            <!-- REPLACE 'footer.png' with your actual footer filename -->
             <img src="footer.png" alt="Footer Image" style="width: 100%; height: auto; display: block;">
         </div>
 
