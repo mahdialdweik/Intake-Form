@@ -591,7 +591,7 @@
         /* --- PRINT OPTIMIZATIONS --- */
         @media print {
             @page {
-                margin: 0.5cm;
+                margin: 0; /* Remove default browser margins for full-width headers */
                 size: auto;
             }
 
@@ -599,7 +599,6 @@
                 background: white;
                 padding: 0;
                 margin: 0;
-                /* Force Print Colors */
                 -webkit-print-color-adjust: exact; 
                 print-color-adjust: exact;
             }
@@ -608,71 +607,98 @@
                 box-shadow: none;
                 width: 100%;
                 max-width: 100%;
-                padding: 0;
+                /* Add internal padding to simulate margins, but keep 0 for header/footer to touch edges */
+                padding: 0 40px; 
                 margin: 0;
-                border-radius: 0;
                 border: none;
+                border-radius: 0;
             }
 
             .no-print { display: none !important; }
 
-            /* Compact Spacing */
-            h1 { font-size: 20px; margin: 10px 0; padding-bottom: 5px; }
+            /* Header & Footer Edge-to-Edge */
+            .logo-header {
+                width: 100%; /* Force full width */
+                margin: 0 -40px 20px -40px; /* Negative margin to counteract page padding */
+                width: calc(100% + 80px); /* Compensate width */
+                border-radius: 0;
+                max-height: none;
+            }
+            
+            .page-footer {
+                margin: 40px -40px 0 -40px;
+                width: calc(100% + 80px);
+                border-radius: 0;
+                border: none;
+            }
+
+            /* Content Styling */
+            h1 { font-size: 24px; margin: 10px 0 20px 0; padding-bottom: 10px; }
+            
             h2 { 
                 font-size: 14px; 
-                margin: 15px 0 10px 0; 
-                padding: 6px 12px;
-                /* Force background color */
-                background: linear-gradient(90deg, var(--primary-blue), var(--primary-dark)) !important;
-                color: var(--white) !important;
-                -webkit-print-color-adjust: exact;
+                margin: 20px 0 15px 0; 
+                padding: 8px 15px;
+                background: #1e40af !important; /* Solid darker blue for crispness */
+                color: #fff !important;
+                box-shadow: none;
+                border-radius: 4px;
+                page-break-after: avoid;
             }
 
             .section-content {
-                padding: 10px;
-                margin-bottom: 10px;
-                border: 1px solid #ccc;
+                padding: 0;
+                margin-bottom: 20px;
+                border: none;
                 background: none;
-                page-break-inside: avoid; /* Prevent cutting sections */
+                page-break-inside: avoid;
             }
-
-            .header-grid { 
+            
+            /* Ensure Grid works on paper */
+            .header-grid, .columns-2 { 
                 display: grid; 
                 grid-template-columns: 1fr 1fr; 
-                gap: 15px; 
-                margin-bottom: 15px;
+                gap: 20px; 
             }
-            
+            .row { flex-direction: row; align-items: baseline; }
             .salary-row { flex-direction: row; align-items: flex-end; }
-            .currency-wrapper { width: 300px; }
-            .columns-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-            .row { flex-direction: row; margin-bottom: 10px; }
+            .currency-wrapper { width: auto; min-width: 200px; }
 
-            .logo-header {
-                margin-bottom: 10px;
-                max-height: 80px; /* Constrain header height for print */
-            }
-            .logo-header img {
-                max-height: 100%;
-                width: auto;
-            }
-
-            .page-footer {
-                margin-top: 20px;
-                border-top: none; /* Clean look */
-                padding-top: 10px;
-            }
-
-            .choice-item input:checked ~ .indicator {
-                background-color: var(--primary-blue) !important;
-                border-color: var(--primary-blue) !important;
-                -webkit-print-color-adjust: exact;
-                box-shadow: inset 0 0 0 3px white !important; /* Ensure the dot is visible */
+            /* Clean up Inputs for Document Look */
+            input[type="text"], input[type="number"], input[type="date"], textarea, select {
+                background: transparent !important;
+                box-shadow: none !important;
+                border: none;
+                border-bottom: 1px solid #94a3b8; /* Thin elegant line */
+                padding: 0 5px;
+                color: #000;
+                font-weight: 600;
             }
             
-            /* Ensure inputs are visible */
-            .underline { border-bottom: 1px solid #999; }
-            input, textarea, select { color: #000; }
+            /* Hide Dropdown Arrows */
+            select {
+                -webkit-appearance: none;
+                appearance: none;
+                background-image: none;
+            }
+
+            /* Hide Slider Handles, just show values */
+            .range-input { display: none; }
+            .slider-track-wrapper { height: 8px; margin-top: 5px; }
+            .range-input-number { border: none; text-align: left; padding: 0; font-size: 14px; }
+
+            /* Checkboxes */
+            .choice-item input:checked ~ .indicator {
+                background-color: #2563eb !important;
+                border-color: #2563eb !important;
+                box-shadow: inset 0 0 0 3px white !important;
+            }
+            
+            .sla-container {
+                border: 2px solid #2563eb;
+                background-color: #f8fafc !important;
+                page-break-inside: avoid;
+            }
         }
     </style>
 </head>
