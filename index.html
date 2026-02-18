@@ -219,10 +219,29 @@
         .range-values {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 8px;
             font-weight: bold;
             color: var(--primary-blue);
             font-size: 14px;
+        }
+        
+        .range-input-number {
+            width: 90px;
+            border: none;
+            border-bottom: 2px solid #cbd5e1;
+            text-align: center;
+            font-weight: bold;
+            color: var(--primary-blue);
+            background: transparent;
+            font-size: 14px;
+            padding: 2px 0;
+            transition: border-color 0.2s;
+        }
+        
+        .range-input-number:focus {
+            border-color: var(--primary-blue);
+            outline: none;
         }
 
         .slider-track-wrapper {
@@ -476,8 +495,9 @@
                     <div style="margin-bottom: 5px;"><span>Salary Range:</span></div>
                     <div class="range-container">
                         <div class="range-values">
-                            <span id="min-display">0</span>
-                            <span id="max-display">150,000</span>
+                            <input type="number" id="min-input" value="50000" min="0" max="300000" class="range-input-number">
+                            <span style="color: #64748b;">-</span>
+                            <input type="number" id="max-input" value="120000" min="0" max="300000" class="range-input-number">
                         </div>
                         <div class="slider-track-wrapper">
                             <div class="slider-track" id="slider-track"></div>
@@ -799,8 +819,8 @@
         // --- Slider Logic ---
         const minRange = document.getElementById('min-range');
         const maxRange = document.getElementById('max-range');
-        const minDisplay = document.getElementById('min-display');
-        const maxDisplay = document.getElementById('max-display');
+        const minInput = document.getElementById('min-input');
+        const maxInput = document.getElementById('max-input');
         const track = document.getElementById('slider-track');
         const rangeMaxVal = 300000; // Matches HTML max
         const minGap = 5000;
@@ -809,7 +829,7 @@
             let min = parseInt(minRange.value);
             let max = parseInt(maxRange.value);
 
-            // Prevent crossing
+            // Prevent crossing for slider
             if (max - min <= minGap) {
                 if (this === minRange) {
                     minRange.value = max - minGap;
@@ -822,21 +842,40 @@
             min = parseInt(minRange.value);
             max = parseInt(maxRange.value);
 
-            // Display formatted with commas
-            minDisplay.textContent = min.toLocaleString();
-            maxDisplay.textContent = max.toLocaleString();
+            // Update numeric inputs
+            minInput.value = min;
+            maxInput.value = max;
 
-            // Visual track coloring
+            fillTrack(min, max);
+        }
+
+        function updateInputs() {
+            let min = parseInt(minInput.value) || 0;
+            let max = parseInt(maxInput.value) || 0;
+            
+            // Validate bounds relative to range max (optional, can adjust)
+            if (min < 0) min = 0;
+            if (max > rangeMaxVal) max = rangeMaxVal;
+            
+            // Sync Slider
+            minRange.value = min;
+            maxRange.value = max;
+            
+            fillTrack(min, max);
+        }
+
+        function fillTrack(min, max) {
             const percent1 = (min / rangeMaxVal) * 100;
             const percent2 = (max / rangeMaxVal) * 100;
-            
             track.style.background = `linear-gradient(to right, #cbd5e1 ${percent1}%, var(--primary-blue) ${percent1}%, var(--primary-blue) ${percent2}%, #cbd5e1 ${percent2}%)`;
         }
 
-        // Initialize Slider
-        if(minRange && maxRange) {
+        // Initialize Slider & Event Listeners
+        if(minRange && maxRange && minInput && maxInput) {
             minRange.addEventListener('input', updateSlider);
             maxRange.addEventListener('input', updateSlider);
+            minInput.addEventListener('input', updateInputs);
+            maxInput.addEventListener('input', updateInputs);
             updateSlider(); // Initial call to set colors
         }
 
