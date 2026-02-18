@@ -50,7 +50,6 @@
         .logo-header {
             width: 100%;
             margin-bottom: 20px;
-            /* Removed dashed border and fixed height to accommodate image */
             overflow: hidden;
             border-radius: 8px;
         }
@@ -64,7 +63,6 @@
         .page-footer {
             margin-top: 40px;
             width: 100%;
-            /* Removed border and padding to let image sit flush */
             overflow: hidden;
             border-radius: 8px;
         }
@@ -523,7 +521,7 @@
         <!-- Logo Header Space -->
         <div class="logo-header">
             <!-- REPLACE 'header-placeholder.png' with your actual logo filename -->
-            <img src="Header.png" alt="Company Logo" style="width: 100%; height: auto; display: block;">
+            <img src="header-placeholder.png" alt="Company Logo" style="width: 100%; height: auto; display: block;">
         </div>
 
         <!-- Title -->
@@ -601,16 +599,16 @@
                     <div style="margin-bottom: 5px;"><span>Salary Range:</span></div>
                     <div class="range-container">
                         <div class="range-values">
-                            <input type="number" id="min-input" value="50000" min="0" max="300000" class="range-input-number">
+                            <input type="number" id="min-input" value="0" min="0" max="300000" class="range-input-number">
                             <span style="color: #64748b;">-</span>
-                            <input type="number" id="max-input" value="120000" min="0" max="300000" class="range-input-number">
+                            <input type="number" id="max-input" value="25000" min="0" max="300000" class="range-input-number">
                         </div>
                         <div class="slider-track-wrapper">
                             <div class="slider-track" id="slider-track"></div>
                             <!-- Min Range -->
-                            <input type="range" class="range-input" id="min-range" min="0" max="300000" value="50000" step="1000">
+                            <input type="range" class="range-input" id="min-range" min="0" max="300000" value="0" step="1000">
                             <!-- Max Range -->
-                            <input type="range" class="range-input" id="max-range" min="0" max="300000" value="120000" step="1000">
+                            <input type="range" class="range-input" id="max-range" min="0" max="300000" value="25000" step="1000">
                         </div>
                     </div>
                 </div>
@@ -618,16 +616,16 @@
                 <div class="header-field currency-wrapper">
                     <span>Currency:</span> 
                     <div class="underline">
-                        <select>
-                            <option value="" disabled selected>Select</option>
-                            <option value="USD">USD - US Dollar</option>
+                        <select id="currency-select">
+                            <option value="" disabled>Select</option>
+                            <option value="USD" selected>USD - US Dollar</option>
+                            <option value="JOD">JOD - Jordanian Dinar</option>
                             <option value="SAR">SAR - Saudi Riyal</option>
+                            <option value="AUD">AUD - Australian Dollar</option>
                             <option value="AED">AED - UAE Dirham</option>
                             <option value="EUR">EUR - Euro</option>
-                            <option value="JOD">JOD - Jordanian Dinar</option>
                             <option value="GBP">GBP - British Pound</option>
                             <option value="CAD">CAD - Canadian Dollar</option>
-                            <option value="AUD">AUD - Australian Dollar</option>
                             <option value="JPY">JPY - Japanese Yen</option>
                             <option value="INR">INR - Indian Rupee</option>
                             <option value="CNY">CNY - Chinese Yuan</option>
@@ -936,8 +934,51 @@
         const minInput = document.getElementById('min-input');
         const maxInput = document.getElementById('max-input');
         const track = document.getElementById('slider-track');
-        const rangeMaxVal = 300000; // Matches HTML max
-        const minGap = 5000;
+        let maxVal = 25000; // Default for USD
+        const minGap = 1000;
+
+        // Currency handling
+        const currencySelect = document.getElementById('currency-select');
+
+        function updateCurrencyLimits() {
+            const currency = currencySelect.value;
+            switch(currency) {
+                case 'JOD':
+                    maxVal = 15000;
+                    break;
+                case 'USD':
+                    maxVal = 25000;
+                    break;
+                case 'SAR':
+                case 'AUD':
+                    maxVal = 100000;
+                    break;
+                default:
+                    maxVal = 300000;
+            }
+
+            // Update attributes
+            minRange.max = maxVal;
+            maxRange.max = maxVal;
+            minInput.max = maxVal;
+            maxInput.max = maxVal;
+
+            // Adjust values if they exceed new max
+            if (parseInt(maxInput.value) > maxVal) {
+                maxInput.value = maxVal;
+                maxRange.value = maxVal;
+            }
+            // Ensure min is also within range
+            if (parseInt(minInput.value) > maxVal) {
+                minInput.value = Math.max(0, maxVal - minGap);
+                minRange.value = minInput.value;
+            }
+            
+            // Re-sync UI
+            updateSlider();
+        }
+
+        currencySelect.addEventListener('change', updateCurrencyLimits);
 
         function updateSlider() {
             let min = parseInt(minRange.value);
@@ -967,9 +1008,9 @@
             let min = parseInt(minInput.value) || 0;
             let max = parseInt(maxInput.value) || 0;
             
-            // Validate bounds relative to range max (optional, can adjust)
+            // Validate bounds
             if (min < 0) min = 0;
-            if (max > rangeMaxVal) max = rangeMaxVal;
+            if (max > maxVal) max = maxVal;
             
             // Sync Slider
             minRange.value = min;
@@ -979,8 +1020,8 @@
         }
 
         function fillTrack(min, max) {
-            const percent1 = (min / rangeMaxVal) * 100;
-            const percent2 = (max / rangeMaxVal) * 100;
+            const percent1 = (min / maxVal) * 100;
+            const percent2 = (max / maxVal) * 100;
             track.style.background = `linear-gradient(to right, #cbd5e1 ${percent1}%, var(--primary-blue) ${percent1}%, var(--primary-blue) ${percent2}%, #cbd5e1 ${percent2}%)`;
         }
 
@@ -990,7 +1031,7 @@
             maxRange.addEventListener('input', updateSlider);
             minInput.addEventListener('input', updateInputs);
             maxInput.addEventListener('input', updateInputs);
-            updateSlider(); // Initial call to set colors
+            updateCurrencyLimits(); // Initial setup based on default currency (USD)
         }
 
         // --- Leadership Toggle ---
