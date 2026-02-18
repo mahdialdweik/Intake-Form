@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Talent Advisor Intake Form</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             /* Modern Professional Palette */
-            --primary-blue: #2563eb; /* A slightly brighter, modern blue */
+            --primary-blue: #2563eb; 
             --primary-dark: #1e40af;
-            --secondary-bg: #f8fafc; /* Slate 50 */
+            --secondary-bg: #f8fafc; 
             --white: #ffffff;
-            --text-main: #1e293b; /* Slate 800 */
-            --text-secondary: #64748b; /* Slate 500 */
-            --border-color: #cbd5e1; /* Slate 300 */
+            --text-main: #1e293b; 
+            --text-secondary: #64748b; 
+            --border-color: #cbd5e1; 
             --danger-red: #ef4444;
-            --accent-blue: #eff6ff; /* Blue 50 */
+            --accent-blue: #eff6ff; 
             --success-green: #10b981;
         }
 
@@ -26,7 +26,7 @@
             line-height: 1.5;
             margin: 0;
             padding: 15px;
-            background-color: #e2e8f0; /* Slate 200 */
+            background-color: #e2e8f0; 
             display: flex;
             justify-content: center;
             min-height: 100vh;
@@ -49,30 +49,30 @@
         /* --- Header & Footer Areas --- */
         .logo-header {
             width: 100%;
-            height: 100px;
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed var(--border-color); /* Visual placeholder */
+            /* Removed dashed border and fixed height to accommodate image */
+            overflow: hidden;
             border-radius: 8px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 14px;
-            background-color: var(--secondary-bg);
+        }
+
+        .logo-header img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         .page-footer {
             margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 12px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 100%;
+            /* Removed border and padding to let image sit flush */
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .page-footer img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         /* Typography */
@@ -507,8 +507,8 @@
             /* Remove placeholder borders for printing */
             .logo-header { border: none; }
             
-            h2 { background: #000; color: #fff; -webkit-print-color-adjust: exact; }
-            .choice-item input:checked ~ .indicator { background-color: #000; -webkit-print-color-adjust: exact; }
+            h2 { background: #000 !important; color: #fff !important; -webkit-print-color-adjust: exact; }
+            .choice-item input:checked ~ .indicator { background-color: #000 !important; -webkit-print-color-adjust: exact; }
         }
     </style>
 </head>
@@ -522,7 +522,8 @@
         
         <!-- Logo Header Space -->
         <div class="logo-header">
-            [Company Logo Placeholder]
+            <!-- REPLACE 'header-placeholder.png' with your actual logo filename -->
+            <img src="Header.png" alt="Company Logo" style="width: 100%; height: auto; display: block;">
         </div>
 
         <!-- Title -->
@@ -843,7 +844,8 @@
 
         <!-- Footer -->
         <div class="page-footer">
-            [Footer Text / Disclaimer / Internal Use Only]
+            <!-- REPLACE 'footer-placeholder.png' with your actual footer filename -->
+            <img src="footer-placeholder.png" alt="Footer Image" style="width: 100%; height: auto; display: block;">
         </div>
 
     </div>
