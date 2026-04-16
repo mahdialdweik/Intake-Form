@@ -200,6 +200,28 @@
             cursor: pointer;
         }
 
+        .underline textarea {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-main);
+            outline: none;
+            padding: 6px 4px;
+            min-height: 35px;
+            border-radius: 0;
+            resize: vertical;
+            box-shadow: none;
+        }
+        
+        .underline textarea:focus {
+            border: none;
+            box-shadow: none;
+            background-color: rgba(37, 99, 235, 0.03);
+        }
+
         textarea {
             width: 100%;
             border: 1px solid var(--border-color);
@@ -646,12 +668,32 @@
                 page-break-after: avoid;
             }
 
+            /* Main Section Borders */
             .section-content {
                 padding: 0;
                 margin-bottom: 20px;
-                border: none;
-                background: none;
+                border: none !important;
+                background: none !important;
                 page-break-inside: avoid;
+            }
+
+            /* --- ALL BOXES SCALING / BORDERS FIX --- */
+            /* Removes the outer box appearance for ALL dynamically added items (Must-Haves, Nice-to-haves, Sourcing, Stages) */
+            .dynamic-item {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 5px 0 !important;
+                margin-bottom: 15px !important;
+                background: transparent !important;
+            }
+
+            /* Removes the big outer box from the SLA section as well */
+            .sla-container {
+                border: none !important;
+                background-color: transparent !important;
+                padding: 5px 0 !important;
+                box-shadow: none !important;
+                margin-top: 20px;
             }
             
             /* Ensure Grid works on paper */
@@ -668,12 +710,12 @@
             input[type="text"], input[type="number"], input[type="date"], textarea, select {
                 background: transparent !important;
                 box-shadow: none !important;
-                border: none;
-                border-bottom: 1px solid #94a3b8; /* Thin elegant line */
+                border: none !important;
+                border-bottom: 1px solid #94a3b8 !important; /* Thin elegant line */
                 padding: 0 5px;
                 color: #000;
                 font-weight: 600;
-                resize: none !important; /* <--- Fix: Hides the textarea resize handle on print */
+                resize: none !important; /* Hides the textarea resize handle on print */
             }
             
             /* Hide Dropdown Arrows */
@@ -686,19 +728,13 @@
             /* Hide Slider Handles, just show values */
             .range-input { display: none; }
             .slider-track-wrapper { height: 8px; margin-top: 5px; }
-            .range-input-number { border: none; text-align: left; padding: 0; font-size: 14px; }
+            .range-input-number { border: none !important; text-align: left; padding: 0; font-size: 14px; }
 
             /* Checkboxes */
             .choice-item input:checked ~ .indicator {
                 background-color: #2563eb !important;
                 border-color: #2563eb !important;
                 box-shadow: inset 0 0 0 3px white !important;
-            }
-            
-            .sla-container {
-                border: 2px solid #2563eb;
-                background-color: #f8fafc !important;
-                page-break-inside: avoid;
             }
         }
     </style>
@@ -925,11 +961,11 @@
                 <div id="must-haves-container" class="card-grid">
                     <div class="dynamic-item">
                         <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
-                        <div class="header-field"><span>1.</span> <div class="underline"><input type="text"></div></div>
+                        <div class="header-field"><span>1.</span> <div class="underline"><textarea rows="1"></textarea></div></div>
                     </div>
                     <div class="dynamic-item">
                         <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
-                        <div class="header-field"><span>2.</span> <div class="underline"><input type="text"></div></div>
+                        <div class="header-field"><span>2.</span> <div class="underline"><textarea rows="1"></textarea></div></div>
                     </div>
                 </div>
                 <button class="add-btn no-print" onclick="addItem('must-haves-container')">+ Add Deal Breaker</button>
@@ -941,11 +977,11 @@
                 <div id="nice-to-haves-container" class="card-grid">
                     <div class="dynamic-item">
                         <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
-                        <div class="header-field"><span>1.</span> <div class="underline"><input type="text"></div></div>
+                        <div class="header-field"><span>1.</span> <div class="underline"><textarea rows="1"></textarea></div></div>
                     </div>
                     <div class="dynamic-item">
                         <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
-                        <div class="header-field"><span>2.</span> <div class="underline"><input type="text"></div></div>
+                        <div class="header-field"><span>2.</span> <div class="underline"><textarea rows="1"></textarea></div></div>
                     </div>
                 </div>
                 <button class="add-btn no-print" onclick="addItem('nice-to-haves-container')">+ Add Nice-to-Have</button>
@@ -1053,7 +1089,7 @@
             if (containerId === 'must-haves-container' || containerId === 'nice-to-haves-container') {
                 div.innerHTML = `
                     <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
-                    <div class="header-field"><span>${count}.</span> <div class="underline"><input type="text"></div></div>
+                    <div class="header-field"><span>${count}.</span> <div class="underline"><textarea rows="1"></textarea></div></div>
                 `;
             } 
             else if (containerId === 'sourcing-container') {
