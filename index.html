@@ -517,7 +517,7 @@
         .sla-label .label-text { font-weight: 500; font-size: 15px; color: var(--text-main); }
         
         .sla-input-sm { width: 80px; flex-shrink: 0; }
-        .sla-input-sm input { text-align: right; color: var(--text-main); font-weight: 600; }
+        .sla-input-sm input, .sla-input-sm textarea { text-align: right; color: var(--text-main); font-weight: 600; resize: vertical; }
 
         /* Date Row Layout */
         .date-row-vertical { flex-direction: column; align-items: flex-start; }
@@ -758,11 +758,11 @@
 
         <!-- Header Block -->
         <div class="header-grid">
-            <div class="header-field"><span>Job Title:</span> <div class="underline"><input type="text"></div></div>
+            <div class="header-field"><span>Job Title:</span> <div class="underline"><textarea rows="1"></textarea></div></div>
             
-            <div class="header-field"><span>Grade:</span> <div class="underline"><input type="text"></div></div>
+            <div class="header-field"><span>Grade:</span> <div class="underline"><textarea rows="1"></textarea></div></div>
             
-            <div class="header-field"><span>Dept/Squad:</span> <div class="underline"><input type="text"></div></div>
+            <div class="header-field"><span>Dept/Squad:</span> <div class="underline"><textarea rows="1"></textarea></div></div>
             <div class="header-field">
                 <span>Type:</span> 
                 <div class="choice-group" style="margin-left: 0; width: 100%;"> 
@@ -772,7 +772,7 @@
                 </div>
             </div>
 
-            <div class="header-field"><span>Hiring Manager:</span> <div class="underline"><input type="text"></div></div>
+            <div class="header-field"><span>Hiring Manager:</span> <div class="underline"><textarea rows="1"></textarea></div></div>
             <div class="header-field">
                 <span>Approval:</span>
                 <div class="choice-group" style="margin-left: 0; width: 100%;">
@@ -807,7 +807,7 @@
             </div>
 
             <div class="columns-2">
-                <div class="header-field"><span>Reporting To:</span> <div class="underline"><input type="text"></div></div>
+                <div class="header-field"><span>Reporting To:</span> <div class="underline"><textarea rows="1"></textarea></div></div>
                 <div class="header-field"><span># Openings:</span> <div class="underline"><input type="number" min="1"></div></div>
             </div>
 
@@ -885,13 +885,13 @@
                     <label class="choice-item"><input type="checkbox"><span class="indicator square"></span> Equity</label>
                     <label class="choice-item"><input type="checkbox"><span class="indicator square"></span> Allowances</label>
                     <div class="header-field" style="flex-grow: 1; margin-left: 0; margin-top: 10px; width: 100%;"> 
-                        <span>Other:</span> <div class="underline"><input type="text"></div>
+                        <span>Other:</span> <div class="underline"><textarea rows="1"></textarea></div>
                     </div>
                 </div>
             </div>
 
             <div class="columns-2" style="margin-top: 15px;">
-                <div class="header-field"><span>Nationality Preference:</span> <div class="underline"><input type="text"></div></div>
+                <div class="header-field"><span>Nationality Preference:</span> <div class="underline"><textarea rows="1"></textarea></div></div>
                 <div class="row" style="margin: 0;">
                     <span class="text-label">Gender Preference:</span>
                     <div class="choice-group">
@@ -1005,14 +1005,14 @@
                 </div>
                 <div class="header-field" style="flex-direction: column; align-items: flex-start; margin-top: 10px;">
                      <span style="font-size: 12px; color: #64748b;">Job Titles / Keywords</span>
-                     <div class="underline" style="width: 100%;"><input type="text"></div>
+                     <div class="underline" style="width: 100%;"><textarea rows="1"></textarea></div>
                 </div>
             </div>
         </div>
         <button class="add-btn no-print" onclick="addItem('sourcing-container')">+ Add Sourcing Target Set</button>
         
         <div class="section-content" style="margin-top: 20px; border: 2px solid #ef4444; background-color: #fef2f2;">
-            <div class="header-field"><span style="color: #ef4444;">Anti-Persona (Do NOT Contact):</span> <div class="underline" style="border-color: #ef4444;"><input type="text" placeholder="Companies/Titles to avoid"></div></div>
+            <div class="header-field"><span style="color: #ef4444;">Anti-Persona (Do NOT Contact):</span> <div class="underline" style="border-color: #ef4444;"><textarea rows="1" placeholder="Companies/Titles to avoid"></textarea></div></div>
         </div>
 
         <h2>6. Process & SLAs</h2>
@@ -1020,21 +1020,21 @@
             <div class="dynamic-item">
                 <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
                 <div class="header-field" style="margin-bottom: 5px;">
-                    <span>Stage 1:</span> <div class="underline"><input type="text" value="Recruiter Screen"></div>
+                    <span>Stage 1:</span> <div class="underline"><textarea rows="1">Recruiter Screen</textarea></div>
                 </div>
                 <div class="columns-2">
-                    <div class="header-field"><span>Interviewer:</span> <div class="underline"><input type="text"></div></div>
-                    <div class="header-field"><span>Focus:</span> <div class="underline"><input type="text"></div></div>
+                    <div class="header-field"><span>Interviewer:</span> <div class="underline"><textarea rows="1"></textarea></div></div>
+                    <div class="header-field"><span>Focus:</span> <div class="underline"><textarea rows="1"></textarea></div></div>
                 </div>
             </div>
              <div class="dynamic-item">
                 <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
                 <div class="header-field" style="margin-bottom: 5px;">
-                    <span>Stage 2:</span> <div class="underline"><input type="text" value="Hiring Manager"></div>
+                    <span>Stage 2:</span> <div class="underline"><textarea rows="1">Hiring Manager</textarea></div>
                 </div>
                 <div class="columns-2">
-                    <div class="header-field"><span>Interviewer:</span> <div class="underline"><input type="text"></div></div>
-                    <div class="header-field"><span>Focus:</span> <div class="underline"><input type="text"></div></div>
+                    <div class="header-field"><span>Interviewer:</span> <div class="underline"><textarea rows="1"></textarea></div></div>
+                    <div class="header-field"><span>Focus:</span> <div class="underline"><textarea rows="1"></textarea></div></div>
                 </div>
             </div>
         </div>
@@ -1049,7 +1049,7 @@
                         <span class="indicator square"><input type="checkbox" style="opacity: 0; width: 100%; height: 100%;"></span>
                         <span class="label-text">HM: Feedback on CVs within</span>
                     </label>
-                    <div class="underline sla-input-sm"><input type="text" value="24h"></div>
+                    <div class="underline sla-input-sm"><textarea rows="1">24h</textarea></div>
                 </div>
                 
                 <div class="sla-row">
@@ -1057,7 +1057,7 @@
                         <span class="indicator square"><input type="checkbox" style="opacity: 0; width: 100%; height: 100%;"></span>
                         <span class="label-text">HM: Interview feedback within</span>
                     </label>
-                    <div class="underline sla-input-sm"><input type="text" value="24h"></div>
+                    <div class="underline sla-input-sm"><textarea rows="1">24h</textarea></div>
                 </div>
 
                 <div class="sla-row date-row-vertical">
@@ -1108,7 +1108,7 @@
                     </div>
                     <div class="header-field" style="flex-direction: column; align-items: flex-start; margin-top: 10px;">
                         <span style="font-size: 12px; color: #64748b;">Job Titles / Keywords</span>
-                        <div class="underline" style="width: 100%;"><input type="text"></div>
+                        <div class="underline" style="width: 100%;"><textarea rows="1"></textarea></div>
                     </div>
                 `;
             }
@@ -1116,11 +1116,11 @@
                 div.innerHTML = `
                     <button class="delete-btn no-print" onclick="deleteItem(this)">×</button>
                     <div class="header-field" style="margin-bottom: 5px;">
-                        <span>Stage ${count}:</span> <div class="underline"><input type="text"></div>
+                        <span>Stage ${count}:</span> <div class="underline"><textarea rows="1"></textarea></div>
                     </div>
                     <div class="columns-2">
-                        <div class="header-field"><span>Interviewer:</span> <div class="underline"><input type="text"></div></div>
-                        <div class="header-field"><span>Focus:</span> <div class="underline"><input type="text"></div></div>
+                        <div class="header-field"><span>Interviewer:</span> <div class="underline"><textarea rows="1"></textarea></div></div>
+                        <div class="header-field"><span>Focus:</span> <div class="underline"><textarea rows="1"></textarea></div></div>
                     </div>
                 `;
             }
